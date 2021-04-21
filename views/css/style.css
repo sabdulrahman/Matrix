@@ -1,0 +1,51 @@
+body {
+    margin: 0 auto 0 auto;
+    padding: 0;
+    width: 1000px;
+    font-family: "Avenir", Verdana;
+    position: relative;
+}
+
+
+.oneslider {
+  width: 300px;
+
+}
+
+.slider1{
+	position: absolute;
+	left:100px;
+	height:50px;
+}
+
+.slider2 {
+   position: absolute;
+   left: -150px;
+   top:300px;
+   transform: rotate(90deg);
+}
+
+.twoslider {
+  width: 200px;
+}
+
+.slider3 {
+	position: absolute;
+   left: 500px;
+   top:300px;
+   transform: rotate(90deg);
+}
+
+.threeslider {
+  width: 200px;
+}
+
+.fourslider {
+  width: 300px;
+
+}
+
+.slider4{
+	position: absolute;
+   left: 100px;
+}

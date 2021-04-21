@@ -1,0 +1,15 @@
+body {
+    margin: 0 auto 0 auto;
+    padding: 0;
+    width: 930px;
+    font-family: "Avenir", Verdana;
+    position: relative;
+}
+
+.logo-i{
+  fill: #808284;
+}
+
+.slidecontainer {
+  width: 500px;
+}

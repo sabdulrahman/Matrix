@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Matrix</title>
+    <script src="https://d3js.org/d3.v4.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/style.css"/>
+</head>
+
+<body>
+    <h1>&ensp;Matrix</h1> 			
+	
+<div class="slider1">
+  <input type="range" min="1" max="10" value="5" class="oneslider" id="slide1">
+</div>
+
+<div class="slider2">
+  <input type="range" min="1" max="10" value="5" class="twoslider" id="slide2">
+</div>
+
+<div class="slider3">
+  <input type="range" min="1" max="10" value="5" class="threeslider" id="slide3">
+</div>
+
+
+<div id="chart"></div>
+
+<div class="slider4">
+  <input type="range" min="1" max="25" value="13" class="fourslider" id="slide4">
+</div>
+
+<script>
+
+change(5,5,13,1)
+
+function change(nocol,norow,nocirc,nocircselected){
+
+var margin = { top: 50, right: 0, bottom: 0, left: 10 };
+
+d3.select("svg").remove();
+
+var width = nocol*100,
+    height = norow*100+100,
+    div = d3.select('#chart'),
+    svg = div.append('svg')
+        .attr('width', width)
+        .attr('height', height)
+		.attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')'),				<!-- Declaring the svg to display the matrix  -->
+    rw = 95,
+    rh = 95;									<!-- row width and height of the matrix cells  -->
+
+var data = [],data1=[],nocircount=0,drawline=[];					<!-- Header of matrix  -->
+
+for (var k = 0; k < norow; k += 1) {
+	var temp = [],temp1=[];
+	for(var i=0;i<nocol;i++)
+	{
+	temp.push('');
+	nocircount +=1
+	if(nocircount<=nocirc)
+	{
+	temp1.push('1');
+	}
+	}
+	data.push(temp);
+	
+    data1.push(temp1);
+}
+
+var grp = svg.selectAll('.recta')
+    .data(data)
+    .enter()
+    .append('g')
+	.attr('gid',function(d,i){return i;})
+	.attr("class","recta")	
+    .attr('transform', function(d, i) {
+        return 'translate(0, ' + 100 * i + ')';			<!-- Creating cells of the matrix  -->
+    });
+
+var gid = 0;
+
+grp.selectAll('rect')
+    .data(function(d) { return d; })
+    .enter()
+    .append('rect')
+        .attr('x', function(d, i) { return 100 * i; })
+		.attr('id',function(d,i)
+		{
+		let id = 'rect'+i+gid; 		<!-- Displaying the cells of the matrix by appending rectangles to svg   -->
+		if(i==(nocol-1)) gid=gid+1;
+		return id;})
+        .attr('width', rw)
+        .attr('height', rh)
+		.attr('fill', '#FFFFFF')
+		.attr('text',function(d){return d;})
+		.style('stroke', '#000000')
+		.style('stroke-width', 2);
+
+var gidc = 0;
+		
+var circ = svg.selectAll('circle')
+	.data(data1)
+    .enter()
+	.append('g')
+	.attr('transform', function(d, i) {
+        return 'translate(0, ' + 100 * i + ')';			<!-- Creating cells of the matrix  -->
+    });
+	
+	  circ.selectAll('circle')
+	  .data(function(d) { return d; })
+	  .enter()
+	  .append("circle")
+	  .attr('r','10')
+	  .attr('cx', function(d, i) {return (100 * i)+45; })
+	  .attr('cy', function(d, i) { return 49; })
+	 .attr('id',function(d,i){gidc=gidc+1; return 'circ'+gidc;})      
+	  
+	
+		
+	$(".oneslider").on("change", function(){
+		change(this.value,norow,nocirc,nocircselected)
+	});
+		
+	$(".twoslider").on("change", function(){
+		change(nocol,this.value,nocirc,nocircselected)
+	});		
+	
+	var all = document.getElementsByClassName('slider3');
+	for (var i = 0; i < all.length; i++) {
+	  all[i].style.left = width+'px';
+	}	
+	
+	$(".threeslider").on("change", function(){
+		change(nocol,norow,this.value,nocircselected)
+	});		
+	
+	let maxcirc = norow*nocol;
+
+	
+	var input2 = document.getElementById("slide4");
+    input2.setAttribute("max", nocirc);
+	input2.setAttribute("value", nocircselected);
+	
+	$(".fourslider").on("change", function(){
+		change(nocol,norow,nocirc,this.value)
+	});		
+	
+	
+	var input = document.getElementById("slide3");
+    input.setAttribute("max", maxcirc);
+	input.setAttribute("value", nocirc);
+
+
+	var bodyRect = document.body.getBoundingClientRect();
+	
+	for(i=1;i<=nocircselected;i++)
+	{
+	var circele = document.getElementById("circ"+i);
+	let domRect = circele.getBoundingClientRect();
+	var x1Loc = domRect.left - bodyRect.left;
+	var y1Loc = domRect.top - bodyRect.top-100;
+	
+	for(j=1;j<=nocirc;j++){
+	var circele2 = document.getElementById("circ"+j);
+	let domRect2 = circele2.getBoundingClientRect();
+	var x2Loc = domRect2.left - bodyRect.left;
+	var y2Loc = domRect2.top - bodyRect.top-100;
+
+	svg.append("line")
+    .style("stroke", "black")  
+    .attr("x1", x1Loc)     
+    .attr("y1", y1Loc)      
+    .attr("x2", x2Loc)     
+    .attr("y2", y2Loc); 
+	}}
+}
+
+</script>	
+</body>
+</html>
+
